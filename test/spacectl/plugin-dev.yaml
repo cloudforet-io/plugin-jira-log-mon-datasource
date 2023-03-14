@@ -1,0 +1,18 @@
+---
+capability:
+  supported_schema:
+  - atlassian_jira
+image: pyengine/plugin-jira-log-mon-datasource
+registry_type: DOCKER_HUB
+labels:
+- jira
+- atlassian
+- monitoring
+name: JIRA Log Monitoring Datasource
+provider: atlassian
+service_type: monitoring.Datasource
+tags:
+  description: Atlassian JIRA Issue Log Datasource
+  icon: https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/jira-icon.png
+  spaceone:plugin_name: plugin-jira-log-mon-datasource
+template: {}
