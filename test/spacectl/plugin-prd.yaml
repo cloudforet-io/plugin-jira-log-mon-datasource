@@ -2,30 +2,17 @@
 capability:
   supported_schema:
   - atlassian_jira
-image: spaceone/plugin-jira-noti-protocol
+image: spaceone/plugin-jira-log-mon-datasource
 registry_type: DOCKER_HUB
 labels:
 - jira
 - atlassian
-- notification
-name: JIRA Notification Protocol
+- monitoring
+name: JIRA Log Monitoring Datasource
 provider: atlassian
-service_type: notification.Procotol
+service_type: monitoring.Datasource
 tags:
-  description: Atlassian JIRA Issue notification
+  description: Atlassian JIRA Issue Log Datasource
   icon: https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/jira-icon.png
-  spaceone:plugin_name: plugin-jira-noti-protocol
-template:
-  options:
-    schema:
-      properties:
-        project_id:
-          minLength: 4.0
-          title: Project ID
-          type: string
-        sa_name:
-          minLength: 4.0
-          title: Service Account
-          type: string
-      required: []
-      type: object
+  spaceone:plugin_name: plugin-jira-log-mon-datasource
+template: {}
