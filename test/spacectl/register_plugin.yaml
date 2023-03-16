@@ -1,0 +1,19 @@
+---
+name: JIRA Issue Log Monitoring
+provider: atlassian
+service_type: monitoring.DataSource
+image: spaceone/plugin-jira-log-mon-datasource
+labels:
+  - Monitoring
+  - Jira
+  - Atlassian
+capability:
+  monitoring_type: LOG
+  supported_schema:
+  - atlassian_jira
+  use_resource_secret: true
+tags:
+  description: JIRA Issue Monitoring Log Plugin
+  icon: https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/azure-cloud-services.svg
+  spaceone:plugin_name: jira-issue-log
+
