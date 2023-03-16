@@ -22,7 +22,7 @@ class MetaDataView(Model):
 
 class LogMetadata(Model):
     view = ModelType(MetaDataView)
-    required_keys = ListType(StringType, default=['data.cloudtrail'])
+    required_keys = ListType(StringType, default=['data.jira_issue'])
 
     @classmethod
     def set_fields(cls, name='', fields=[]):
