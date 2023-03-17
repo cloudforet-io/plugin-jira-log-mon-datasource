@@ -23,6 +23,7 @@ class MetaDataView(Model):
 class LogMetadata(Model):
     view = ModelType(MetaDataView)
     required_keys = ListType(StringType, default=['data.jira_issue'])
+    supported_providers = ListType(StringType, default=['all'])
 
     @classmethod
     def set_fields(cls, name='', fields=[]):
@@ -33,5 +34,3 @@ class LogMetadata(Model):
     def set_meta(cls, name='', fields=[], search=[], widget=[]):
         table_meta = MetaDataViewTable({'layout': TableDynamicLayout.set_fields(name, fields)})
         return cls({'view': MetaDataView({'table': table_meta, 'search': search, 'widget': widget})})
-
-
