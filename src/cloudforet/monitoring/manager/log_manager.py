@@ -1,7 +1,6 @@
 import logging
+from datetime import datetime
 from spaceone.core.manager import BaseManager
-from spaceone.core.utils import get_dict_value
-from cloudforet.monitoring.conf.monitoring_conf import *
 from cloudforet.monitoring.connector.jira import JiraConnector
 from cloudforet.monitoring.model.log_model import Log, JIRAIssueInfo
 
@@ -38,7 +37,7 @@ class LogManager(BaseManager):
                 'reporter': _issue_field.get('reporter'),
                 'creator': _issue_field.get('creator'),
                 'progress': _issue_field.get('progress'),
-                'duedate': _issue_field.get('duedate'),
+                'duedate': self.convert_datetime(_issue_field.get('duedate')),
                 'priority': _issue_field.get('priority'),
                 'environment': _issue_field.get('environment'),
                 'assignee': _issue_field.get('assignee'),
@@ -87,3 +86,11 @@ class LogManager(BaseManager):
                     description += _info.get('text', '')
 
         return description
+
+    @staticmethod
+    def convert_datetime(date):
+        if date:
+            date_obj = datetime.strptime(date, '%Y-%m-%d')
+            return date_obj.timestamp()
+
+        return None
