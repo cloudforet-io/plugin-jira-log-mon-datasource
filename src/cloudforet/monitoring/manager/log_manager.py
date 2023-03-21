@@ -13,15 +13,10 @@ class LogManager(BaseManager):
 
     def list_logs(self, params):
         secret_data = params.get('secret_data', {})
-        query = params.get('query', {})
-
         results = []
         jira_connector = self.locator.get_connector(JiraConnector, **secret_data)
 
-        for issue in jira_connector.list_issues(query):
-            # import pprint
-            # pprint.pprint(issue)
-
+        for issue in jira_connector.list_issues(params):
             issue_dict = {
                 'id': issue.get('id'),
                 'key': issue.get('key'),

@@ -1,7 +1,9 @@
 import logging
 import requests
+import datetime
 from requests.auth import HTTPBasicAuth
 
+from spaceone.core.utils import iso8601_to_datetime
 from cloudforet.monitoring.error import *
 
 __all__ = ['JiraConnector']
@@ -21,18 +23,25 @@ class JiraConnector(object):
         self.auth = HTTPBasicAuth(email, api_token)
         self.headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
 
-    def list_issues(self, query):
-        issue_url = f'{self.url}/rest/api/3/search'
-        jira_search_params = {
-            'jql': query.get('jql')
-        }
+    def list_issues(self, params):
+        query = params.get('query', {})
 
-        response = requests.get(issue_url, headers=self.headers, params=jira_search_params, auth=self.auth)
+        if query:
+            issue_url = f'{self.url}/rest/api/3/search'
+            jira_search_params = {
+                'jql': self._generate_jql(params)
+            }
 
-        if response.status_code == 200:
-            return response.json().get('issues', [])
+            print(f"JQL: {jira_search_params}")
+            response = requests.get(issue_url, headers=self.headers, params=jira_search_params, auth=self.auth)
+
+            if response.status_code == 200:
+                return response.json().get('issues', [])
+            else:
+                _LOGGER.debug(response.text)
+                return []
         else:
-            _LOGGER.debug(response.text)
+            _LOGGER.debug('JIRA Query is empty')
             return []
 
     def list_issue_change_logs(self, issue_id):
@@ -45,3 +54,27 @@ class JiraConnector(object):
         else:
             _LOGGER.debug(response.text)
             return []
+
+    def _generate_jql(self, params):
+        jql_list = []
+        query = params.get('query', {})
+        start, end = self.get_start_end_time(params.get('start'), params.get('end'))
+
+        if start and end:
+            jql_list.append(f'(created > "{start}" AND created < "{end}")')
+
+        if query.get('jql'):
+            jql_list.append(query.get('jql'))
+
+        return ' AND '.join(jql_list)
+
+    @staticmethod
+    def get_start_end_time(start, end):
+        try:
+            _start = start.strftime('%Y/%m/%d')
+            _end = end.strftime('%Y/%m/%d')
+            return _start, _end
+
+        except Exception as e:
+            print(e)
+            return None, None
