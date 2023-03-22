@@ -65,6 +65,16 @@ class IssuePriority(Model):
     self = StringType(serialize_when_none=False)
 
 
+class IssueRequestType(Model):
+    id = StringType(serialize_when_none=False)
+    name = StringType(serialize_when_none=False)
+    description = StringType(serialize_when_none=False)
+    self = StringType(serialize_when_none=False)
+    issue_type_id = StringType(serialize_when_none=False)
+    service_desk_id = StringType(serialize_when_none=False)
+    portal_id = StringType(serialize_when_none=False)
+
+
 class IssueChangeLog(Model):
     id = StringType(serialize_when_none=False)
     author = ModelType(JiraAccount)
@@ -87,11 +97,13 @@ class JIRAIssueInfo(Model):
     assignee = ModelType(IssueAssignee, default={})
     progress = ModelType(IssueProgress)
     priority = ModelType(IssuePriority, default={})
+    request_type = ModelType(IssueRequestType, default={})
     resolution = ModelType(IssueResolution, default={})
     resolution_date = DateTimeType(serialize_when_none=False)
     description = StringType(serialize_when_none=False)
     duedate = DateTimeType(serialize_when_none=False)
     environment = StringType(serialize_when_none=False)
+    labels = ListType(StringType(serialize_when_none=False), default=[])
     change_logs = ListType(ModelType(IssueChangeLog), default=[])
     created = DateTimeType(serialize_when_none=False)
     updated = DateTimeType(serialize_when_none=False)
