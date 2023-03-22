@@ -31,8 +31,6 @@ class JiraConnector(object):
             jira_search_params = {
                 'jql': self._generate_jql(params)
             }
-
-            print(f"JQL: {jira_search_params}")
             response = requests.get(issue_url, headers=self.headers, params=jira_search_params, auth=self.auth)
 
             if response.status_code == 200:
