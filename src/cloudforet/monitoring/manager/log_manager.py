@@ -39,6 +39,7 @@ class LogManager(BaseManager):
                 'resolution': _issue_field.get('resolution'),
                 'resolution_date': _issue_field.get('resolutiondate'),
                 'description': self._get_description(_issue_field.get('description')),
+                'labels': _issue_field.get('labels', []),
                 'created': _issue_field.get('created'),
                 'updated': _issue_field.get('updated'),
                 'change_logs': self._get_change_logs(jira_connector, issue.get('id'))
