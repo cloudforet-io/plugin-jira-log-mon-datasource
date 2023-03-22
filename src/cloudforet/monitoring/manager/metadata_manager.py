@@ -19,60 +19,58 @@ class MetadataManager(BaseManager):
             name='jira-issue-table',
             fields=[
                 MoreField.data_source('Title', 'title', options={
-                    'layouts': [
-                        {
-                            'name': 'Issue Information',
-                            'type': 'item',
-                            'options': {
-                                'fields': [
-                                    {
-                                        "type": "text",
-                                        "key": "title",
-                                        "name": "Title"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "key": "key",
-                                        "name": "Key"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "key": "description",
-                                        "name": "Description"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "key": "priority.name",
-                                        "name": "Priority"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "key": "assignee.display_name",
-                                        "name": "Assignee"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "key": "reporter.display_name",
-                                        "name": "Reporter"
-                                    },
-                                    {
-                                        "type": "list",
-                                        "key": "reporter.display_name",
-                                        "name": "Labels",
-                                        "options": {
-                                            "delimiter": "<br>",
-                                            "item": {
-                                                "type": "badge",
-                                                "options": {
-                                                    "outline_color": "violet.500"
-                                                }
+                    'layout': {
+                        'name': 'Issue Information',
+                        'type': 'item',
+                        'options': {
+                            'fields': [
+                                {
+                                    "type": "text",
+                                    "key": "title",
+                                    "name": "Title"
+                                },
+                                {
+                                    "type": "text",
+                                    "key": "key",
+                                    "name": "Key"
+                                },
+                                {
+                                    "type": "text",
+                                    "key": "description",
+                                    "name": "Description"
+                                },
+                                {
+                                    "type": "text",
+                                    "key": "priority.name",
+                                    "name": "Priority"
+                                },
+                                {
+                                    "type": "text",
+                                    "key": "assignee.display_name",
+                                    "name": "Assignee"
+                                },
+                                {
+                                    "type": "text",
+                                    "key": "reporter.display_name",
+                                    "name": "Reporter"
+                                },
+                                {
+                                    "type": "list",
+                                    "key": "reporter.display_name",
+                                    "name": "Labels",
+                                    "options": {
+                                        "delimiter": "<br>",
+                                        "item": {
+                                            "type": "badge",
+                                            "options": {
+                                                "outline_color": "violet.500"
                                             }
                                         }
                                     }
-                                ]
-                            }
+                                }
+                            ]
                         }
-                    ]
+                    }
                 }),
                 TextDyField.data_source('Status', 'status.name'),
                 TextDyField.data_source('Project', 'project.name'),
