@@ -105,8 +105,8 @@ class MetadataManager(BaseManager):
                                         },
                                         {
                                             "type": "text",
-                                            "key": "User",
-                                            "name": "author.display_name"
+                                            "key": "author.display_name",
+                                            "name": "User"
                                         },
                                         {
                                             "type": "datetime",
