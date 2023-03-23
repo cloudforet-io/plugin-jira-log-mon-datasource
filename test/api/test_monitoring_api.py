@@ -56,12 +56,12 @@ class TestJiraMonDataSource(TestCase):
         options = {}
 
         resource_stream = self.monitoring.Log.list({
-            'start': '2023-03-08',
-            'end': '2023-03-08',
+            'start': '2023-01-08T02:02:21.282Z',
+            'end': '2023-03-21T02:02:21.282Z',
             'options': options,
             'secret_data': self.secret_data,
             'query': {
-                'jql': 'project=GCPSVC AND labels in (cloud-svc-63ec986aa6e0)'
+                'jql': 'project=GCPSVC AND labels in (cloud-svc-49c044bed8f3)'
             }
         })
 
