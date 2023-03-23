@@ -48,7 +48,9 @@ class JiraConnector(object):
         response = requests.get(changelog_url, headers=self.headers, auth=self.auth)
 
         if response.status_code == 200:
-            return response.json().get('values', [])
+            _values = response.json().get('values', [])
+            _values.reverse()
+            return _values
         else:
             _LOGGER.debug(response.text)
             return []
