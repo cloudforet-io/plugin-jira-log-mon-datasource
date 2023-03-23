@@ -42,7 +42,7 @@ class LogManager(BaseManager):
                 'labels': _issue_field.get('labels', []),
                 'created': _issue_field.get('created'),
                 'updated': _issue_field.get('updated'),
-                'change_logs': self._get_change_logs(jira_connector, issue.get('id'))
+                'change_log_info': {'change_logs': self._get_change_logs(jira_connector, issue.get('id'))}
             })
             results.append(JIRAIssueInfo(issue_dict, strict=False))
 

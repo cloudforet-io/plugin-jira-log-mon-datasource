@@ -84,6 +84,11 @@ class IssueChangeLog(Model):
     to_string = StringType(default=None)
 
 
+class IssueHistory(Model):
+    name = StringType(default='View')
+    change_logs = ListType(ModelType(IssueChangeLog), default=[])
+
+
 class JIRAIssueInfo(Model):
     title = StringType(serialize_when_none=False)
     id = StringType(serialize_when_none=False)
@@ -104,7 +109,7 @@ class JIRAIssueInfo(Model):
     duedate = DateTimeType(serialize_when_none=False)
     environment = StringType(serialize_when_none=False)
     labels = ListType(StringType(serialize_when_none=False), default=[])
-    change_logs = ListType(ModelType(IssueChangeLog), default=[])
+    change_log_info = ModelType(IssueHistory)
     created = DateTimeType(serialize_when_none=False)
     updated = DateTimeType(serialize_when_none=False)
 

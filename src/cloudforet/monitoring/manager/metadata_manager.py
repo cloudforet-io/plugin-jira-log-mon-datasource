@@ -59,7 +59,7 @@ class MetadataManager(BaseManager):
                                         },
                                         {
                                             "type": "list",
-                                            "key": "reporter.display_name",
+                                            "key": "labels",
                                             "name": "Labels",
                                             "options": {
                                                 "delimiter": "<br>",
@@ -83,6 +83,43 @@ class MetadataManager(BaseManager):
                 TextDyField.data_source('Reporter', 'reporter.display_name'),
                 DateTimeDyField.data_source('Created Time', 'created'),
                 DateTimeDyField.data_source('Updated Time', 'updated'),
+                MoreField.data_source('History', 'change_log_info.name', options={
+                    'layout': {
+                        'name': 'Activity History',
+                        'options': {
+                            'type': 'popup',
+                            'layout': {
+                                'type': 'simple-table',
+                                'options': {
+                                    'root_path': 'change_log_info.change_logs',
+                                    'fields': [
+                                        {
+                                            "type": "text",
+                                            "key": "field",
+                                            "name": "Field"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "key": "to_string",
+                                            "name": "To change"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "key": "User",
+                                            "name": "author.display_name"
+                                        },
+                                        {
+                                            "type": "datetime",
+                                            "source_type": 'iso8601',
+                                            "key": "created",
+                                            "name": "Changed Time"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                })
             ]
         )
         return metadata
