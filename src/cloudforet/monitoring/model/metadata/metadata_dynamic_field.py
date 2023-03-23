@@ -52,7 +52,7 @@ class FieldViewOption(Model):
 
 class MoreLayoutField(Model):
     name = StringType(default='')
-    type = StringType(default="popup")
+    type = StringType(serialize_when_none=False)
     options = DictType(BaseType, serialize_when_none=False)
 
 
