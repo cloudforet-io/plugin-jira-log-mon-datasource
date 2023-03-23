@@ -119,6 +119,9 @@ class MetadataManager(BaseManager):
                             }
                         }
                     }
+                }),
+                TextDyField.data_source('Link', 'issue_link.name', options={
+                    'link': "{{issue_link.link_url}}"
                 })
             ]
         )

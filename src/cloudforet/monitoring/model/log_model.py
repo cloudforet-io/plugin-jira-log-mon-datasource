@@ -89,6 +89,11 @@ class IssueHistory(Model):
     change_logs = ListType(ModelType(IssueChangeLog), default=[])
 
 
+class IssueLink(Model):
+    name = StringType(default='Link')
+    link_url = StringType(default='')
+
+
 class JIRAIssueInfo(Model):
     title = StringType(serialize_when_none=False)
     id = StringType(serialize_when_none=False)
@@ -110,6 +115,7 @@ class JIRAIssueInfo(Model):
     environment = StringType(serialize_when_none=False)
     labels = ListType(StringType(serialize_when_none=False), default=[])
     change_log_info = ModelType(IssueHistory)
+    issue_link = ModelType(IssueLink)
     created = DateTimeType(serialize_when_none=False)
     updated = DateTimeType(serialize_when_none=False)
 

@@ -20,7 +20,8 @@ class LogManager(BaseManager):
             issue_dict = {
                 'id': issue.get('id'),
                 'key': issue.get('key'),
-                'self': issue.get('self')
+                'self': issue.get('self'),
+                'issue_link': {'link_url': self._generate_jira_link_url(secret_data, issue.get('key'))}
             }
 
             _issue_field = issue.get('fields', {})
@@ -90,3 +91,7 @@ class LogManager(BaseManager):
             return date_obj.timestamp()
 
         return None
+
+    @staticmethod
+    def _generate_jira_link_url(secret_data, key):
+        return f'{secret_data.get("url", "")}/browse/{key}'
