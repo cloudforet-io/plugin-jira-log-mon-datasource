@@ -21,54 +21,59 @@ class MetadataManager(BaseManager):
                 MoreField.data_source('Title', 'title', options={
                     'layout': {
                         'name': 'Issue Information',
-                        'type': 'item',
                         'options': {
-                            'fields': [
-                                {
-                                    "type": "text",
-                                    "key": "title",
-                                    "name": "Title"
-                                },
-                                {
-                                    "type": "text",
-                                    "key": "key",
-                                    "name": "Key"
-                                },
-                                {
-                                    "type": "text",
-                                    "key": "description",
-                                    "name": "Description"
-                                },
-                                {
-                                    "type": "text",
-                                    "key": "priority.name",
-                                    "name": "Priority"
-                                },
-                                {
-                                    "type": "text",
-                                    "key": "assignee.display_name",
-                                    "name": "Assignee"
-                                },
-                                {
-                                    "type": "text",
-                                    "key": "reporter.display_name",
-                                    "name": "Reporter"
-                                },
-                                {
-                                    "type": "list",
-                                    "key": "reporter.display_name",
-                                    "name": "Labels",
-                                    "options": {
-                                        "delimiter": "<br>",
-                                        "item": {
-                                            "type": "badge",
+                            'type': 'popup',
+                            'layout': {
+                                'type': 'item',
+                                'options': {
+                                    'fields': [
+                                        {
+                                            "type": "text",
+                                            "key": "title",
+                                            "name": "Title"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "key": "key",
+                                            "name": "Key"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "key": "description",
+                                            "name": "Description"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "key": "priority.name",
+                                            "name": "Priority"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "key": "assignee.display_name",
+                                            "name": "Assignee"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "key": "reporter.display_name",
+                                            "name": "Reporter"
+                                        },
+                                        {
+                                            "type": "list",
+                                            "key": "reporter.display_name",
+                                            "name": "Labels",
                                             "options": {
-                                                "outline_color": "violet.500"
+                                                "delimiter": "<br>",
+                                                "item": {
+                                                    "type": "badge",
+                                                    "options": {
+                                                        "outline_color": "violet.500"
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
+                                    ]
                                 }
-                            ]
+                            }
                         }
                     }
                 }),
