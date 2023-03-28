@@ -34,6 +34,11 @@ class MetadataManager(BaseManager):
                                         },
                                         {
                                             "type": "text",
+                                            "key": "issue_link.link_url",
+                                            "name": "JIRA Link"
+                                        },
+                                        {
+                                            "type": "text",
                                             "key": "key",
                                             "name": "Key"
                                         },
