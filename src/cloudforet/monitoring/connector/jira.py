@@ -61,7 +61,7 @@ class JiraConnector(object):
         start, end = self.get_start_end_time(params.get('start'), params.get('end'))
 
         if start and end:
-            jql_list.append(f'(created > "{start}" AND created < "{end}")')
+            jql_list.append(f'(created >= "{start}" AND created <= "{end}")')
 
         if query.get('jql'):
             jql_list.append(query.get('jql'))
