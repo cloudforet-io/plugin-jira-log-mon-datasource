@@ -72,6 +72,7 @@ class JiraConnector(object):
     def get_start_end_time(start, end):
         try:
             _start = start.strftime('%Y/%m/%d')
+            end += datetime.timedelta(days=1)
             _end = end.strftime('%Y/%m/%d')
             return _start, _end
 
