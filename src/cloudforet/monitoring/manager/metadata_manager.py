@@ -87,7 +87,6 @@ class MetadataManager(BaseManager):
                 TextDyField.data_source('Assignee', 'assignee.display_name'),
                 TextDyField.data_source('Reporter', 'reporter.display_name'),
                 DateTimeDyField.data_source('Created Time', 'created'),
-                DateTimeDyField.data_source('Updated Time', 'updated'),
                 MoreField.data_source('History', 'change_log_info.name', options={
                     'layout': {
                         'name': 'Activity History',
@@ -124,9 +123,6 @@ class MetadataManager(BaseManager):
                             }
                         }
                     }
-                }),
-                TextDyField.data_source('Link', 'issue_link.name', options={
-                    'link': "{{issue_link.link_url}}"
                 })
             ]
         )
