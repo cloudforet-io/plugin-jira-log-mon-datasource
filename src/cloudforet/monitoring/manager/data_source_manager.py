@@ -20,5 +20,4 @@ class DataSourceManager(BaseManager):
         return response_model.to_primitive()
 
     def verify(self, params):
-        jira_connector = self.locator.get_connector(JiraConnector, **params)
-        jira_connector.set_connect(params.get('scheme'), params.get('options'), params.get('secret_data'))
+        self.locator.get_connector(JiraConnector, **params)

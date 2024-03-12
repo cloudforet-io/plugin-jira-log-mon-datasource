@@ -12,40 +12,49 @@ class LogManager(BaseManager):
         super().__init__(*args, **kwargs)
 
     def list_logs(self, params):
+        query = params.get('query')
+        resource_id = query.get('resource_id')
+        start = params.get('start')
+        end = params.get('end')
+        options = params.get('options', {})
+        field_name = options.get('search_field', 'resource_id')
         secret_data = params.get('secret_data', {})
+
         results = []
-        jira_connector = self.locator.get_connector(JiraConnector, **secret_data)
+        jira_connector = self.locator.get_connector(JiraConnector, **params)
+        issues_generator = jira_connector.list_issues(field_name, resource_id, start, end)
+        issues_info = [issues_info for issues_info in issues_generator]
+        for issue_info in issues_info:
+            for issue in issue_info["issues"]:
+                issue_dict = {
+                    'id': issue.get('id'),
+                    'key': issue.get('key'),
+                    'self': issue.get('self'),
+                    'issue_link': {'link_url': self._generate_jira_link_url(secret_data, issue.get('key'))}
+                }
 
-        for issue in jira_connector.list_issues(params):
-            issue_dict = {
-                'id': issue.get('id'),
-                'key': issue.get('key'),
-                'self': issue.get('self'),
-                'issue_link': {'link_url': self._generate_jira_link_url(secret_data, issue.get('key'))}
-            }
-
-            _issue_field = issue.get('fields', {})
-            issue_dict.update({
-                'title': _issue_field.get('summary'),
-                'project': _issue_field.get('project', {}),
-                'status': _issue_field.get('status'),
-                'status_category_change_date': _issue_field.get('statuscategorychangedate'),
-                'reporter': _issue_field.get('reporter'),
-                'creator': _issue_field.get('creator'),
-                'progress': _issue_field.get('progress'),
-                'duedate': self.convert_datetime(_issue_field.get('duedate')),
-                'priority': _issue_field.get('priority'),
-                'environment': _issue_field.get('environment'),
-                'assignee': _issue_field.get('assignee'),
-                'resolution': _issue_field.get('resolution'),
-                'resolution_date': _issue_field.get('resolutiondate'),
-                'description': self._get_description(_issue_field.get('description')),
-                'labels': _issue_field.get('labels', []),
-                'created': _issue_field.get('created'),
-                'updated': _issue_field.get('updated'),
-                'change_log_info': {'change_logs': self._get_change_logs(jira_connector, issue.get('id'))}
-            })
-            results.append(JIRAIssueInfo(issue_dict, strict=False))
+                _issue_field = issue.get('fields', {})
+                issue_dict.update({
+                    'title': _issue_field.get('summary'),
+                    'project': _issue_field.get('project', {}),
+                    'status': _issue_field.get('status'),
+                    'status_category_change_date': _issue_field.get('statuscategorychangedate'),
+                    'reporter': _issue_field.get('reporter'),
+                    'creator': _issue_field.get('creator'),
+                    'progress': _issue_field.get('progress'),
+                    'duedate': self.convert_datetime(_issue_field.get('duedate')),
+                    'priority': _issue_field.get('priority'),
+                    'environment': _issue_field.get('environment'),
+                    'assignee': _issue_field.get('assignee'),
+                    'resolution': _issue_field.get('resolution'),
+                    'resolution_date': _issue_field.get('resolutiondate'),
+                    'description': self._get_description(_issue_field.get('description')),
+                    'labels': _issue_field.get('labels', []),
+                    'created': _issue_field.get('created'),
+                    'updated': _issue_field.get('updated'),
+                    'change_log_info': {'change_logs': self._get_change_logs(jira_connector, issue.get('id'))}
+                })
+                results.append(JIRAIssueInfo(issue_dict, strict=False))
 
         yield Log({'results': results})
 

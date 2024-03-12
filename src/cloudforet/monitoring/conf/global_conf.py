@@ -8,7 +8,7 @@ LOG = {
                 'DataSource.verify': [
                     'secret_data'
                 ],
-                'Log.list': [
+                'Log.list_logs': [
                     'secret_data'
                 ],
             }
