@@ -1,3 +1,1 @@
-spaceone-core
-spaceone-api
 schematics
