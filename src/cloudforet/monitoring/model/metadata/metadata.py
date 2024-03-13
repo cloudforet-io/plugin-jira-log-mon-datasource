@@ -22,7 +22,7 @@ class MetaDataView(Model):
 
 class LogMetadata(Model):
     view = ModelType(MetaDataView)
-    required_keys = ListType(StringType, default=['reference.resource_id'])
+    required_keys = ListType(StringType, default=['reference'])
     supported_providers = ListType(StringType, default=['all'])
 
     @classmethod
