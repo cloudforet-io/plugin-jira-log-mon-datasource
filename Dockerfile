@@ -1,4 +1,4 @@
-FROM cloudforet/python-core:1
+FROM python:3.8-slim
 
 ENV PYTHONUNBUFFERED 1
 ENV SPACEONE_PORT 50051
@@ -11,12 +11,14 @@ RUN apt update && apt upgrade -y
 COPY pkg/*.txt ${PKG_DIR}/
 RUN pip install --upgrade pip && \
     pip install --upgrade --use-deprecated=legacy-resolver -r ${PKG_DIR}/pip_requirements.txt && \
-    pip install --upgrade spaceone-api
+    pip install --upgrade --pre spaceone-core spaceone-api
 
 COPY src ${SRC_DIR}
 
 WORKDIR ${SRC_DIR}
-RUN python3 setup.py install
+RUN python3 setup.py install && \
+    rm -rf /tmp/*
+
 EXPOSE ${SPACEONE_PORT}
 
 ENTRYPOINT ["spaceone"]
