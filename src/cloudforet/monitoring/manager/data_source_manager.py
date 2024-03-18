@@ -16,7 +16,7 @@ class DataSourceManager(BaseManager):
     def init(params):
         options = params['options']
         meta_manager = MetadataManager()
-        response_model = DataSourceMetadata({'_metadata': meta_manager.get_data_source_metadata()}, strict=False)
+        response_model = DataSourceMetadata({'_metadata': meta_manager.get_data_source_metadata(options)}, strict=False)
         return response_model.to_primitive()
 
     def verify(self, params):

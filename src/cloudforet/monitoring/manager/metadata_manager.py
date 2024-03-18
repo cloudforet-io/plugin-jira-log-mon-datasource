@@ -14,116 +14,167 @@ class MetadataManager(BaseManager):
         super().__init__(**kwargs)
 
     @staticmethod
-    def get_data_source_metadata():
-        metadata = LogMetadata.set_fields(
-            name='jira-issue-table',
-            fields=[
-                MoreField.data_source('Title', 'title', options={
-                    'layout': {
-                        'name': 'Issue Information',
-                        'options': {
-                            'type': 'popup',
-                            'layout': {
-                                'type': 'item',
-                                'options': {
-                                    'fields': [
-                                        {
-                                            "type": "text",
-                                            "key": "title",
-                                            "name": "Title"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "key": "issue_link.link_url",
-                                            "name": "JIRA Link"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "key": "key",
-                                            "name": "Key"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "key": "description",
-                                            "name": "Description"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "key": "priority.name",
-                                            "name": "Priority"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "key": "assignee.display_name",
-                                            "name": "Assignee"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "key": "reporter.display_name",
-                                            "name": "Reporter"
-                                        },
-                                        {
-                                            "type": "list",
-                                            "key": "labels",
-                                            "name": "Labels",
-                                            "options": {
-                                                "delimiter": "<br>",
-                                                "item": {
-                                                    "type": "badge",
-                                                    "options": {
-                                                        "outline_color": "violet.500"
-                                                    }
-                                                }
+    def get_data_source_metadata(options):
+        if options.get("custom_fields"):
+            metadata = LogMetadata.set_fields(
+                name='jira-issue-table',
+                fields=[
+                    TextDyField.data_source('Issue Type', 'issue_type'),
+                    MoreField.data_source('Title', 'title', options={
+                        'layout': {
+                            'name': 'Issue Information',
+                            'options': {
+                                'type': 'popup',
+                                'layout': {
+                                    'type': 'item',
+                                    'options': {
+                                        'fields': [
+                                            {
+                                                "type": "text",
+                                                "key": "title",
+                                                "name": "Title"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "key": "key",
+                                                "name": "Key"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "key": "description",
+                                                "name": "Description"
+                                            },
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }),
+                    TextDyField.data_source('Status', 'status.name'),
+                    TextDyField.data_source('Priority', 'priority.name'),
+                    TextDyField.data_source('Project', 'project.name', options={'link': 'issue_link.link_url'}),
+                    TextDyField.data_source('Assignee', 'assignee.display_name'),
+                    TextDyField.data_source('Reporter', 'reporter.display_name'),
+                    ListDyField.data_source('Approvers', 'custom.approvers', options={'delimiter': "<br>"}),
+                    DateTimeDyField.data_source('Approval Time', 'custom.approval_time'),
+                    DateTimeDyField.data_source('Created Time', 'created'),
+                    MoreField.data_source('History', 'change_log_info.name', options={
+                        'layout': {
+                            'name': 'Activity History',
+                            'options': {
+                                'type': 'popup',
+                                'layout': {
+                                    'type': 'simple-table',
+                                    'options': {
+                                        'root_path': 'change_log_info.change_logs',
+                                        'fields': [
+                                            {
+                                                "type": "text",
+                                                "key": "field",
+                                                "name": "Field"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "key": "to_string",
+                                                "name": "To change"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "key": "author.display_name",
+                                                "name": "User"
+                                            },
+                                            {
+                                                "type": "datetime",
+                                                "source_type": 'iso8601',
+                                                "key": "created",
+                                                "name": "Changed Time"
                                             }
-                                        }
-                                    ]
+                                        ]
+                                    }
                                 }
                             }
                         }
-                    }
-                }),
-                TextDyField.data_source('Status', 'status.name'),
-                TextDyField.data_source('Project', 'project.name'),
-                TextDyField.data_source('Assignee', 'assignee.display_name'),
-                TextDyField.data_source('Reporter', 'reporter.display_name'),
-                DateTimeDyField.data_source('Created Time', 'created'),
-                MoreField.data_source('History', 'change_log_info.name', options={
-                    'layout': {
-                        'name': 'Activity History',
-                        'options': {
-                            'type': 'popup',
-                            'layout': {
-                                'type': 'simple-table',
-                                'options': {
-                                    'root_path': 'change_log_info.change_logs',
-                                    'fields': [
-                                        {
-                                            "type": "text",
-                                            "key": "field",
-                                            "name": "Field"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "key": "to_string",
-                                            "name": "To change"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "key": "author.display_name",
-                                            "name": "User"
-                                        },
-                                        {
-                                            "type": "datetime",
-                                            "source_type": 'iso8601',
-                                            "key": "created",
-                                            "name": "Changed Time"
-                                        }
-                                    ]
+                    })
+                ]
+            )
+        else:
+            metadata = LogMetadata.set_fields(
+                name='jira-issue-table',
+                fields=[
+                    TextDyField.data_source('Issue Type', 'status.name'),
+                    MoreField.data_source('Title', 'title', options={
+                        'layout': {
+                            'name': 'Issue Information',
+                            'options': {
+                                'type': 'popup',
+                                'layout': {
+                                    'type': 'item',
+                                    'options': {
+                                        'fields': [
+                                            {
+                                                "type": "text",
+                                                "key": "title",
+                                                "name": "Title"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "key": "key",
+                                                "name": "Key"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "key": "description",
+                                                "name": "Description"
+                                            },
+                                        ]
+                                    }
                                 }
                             }
                         }
-                    }
-                })
-            ]
-        )
+                    }),
+                    TextDyField.data_source('Status', 'status.name'),
+                    TextDyField.data_source('Priority', 'priority.name'),
+                    TextDyField.data_source('Project', 'project.name', options={'link': 'issue_link.link_url'}),
+                    TextDyField.data_source('Assignee', 'assignee.display_name'),
+                    TextDyField.data_source('Reporter', 'reporter.display_name'),
+                    DateTimeDyField.data_source('Created Time', 'created'),
+                    MoreField.data_source('History', 'change_log_info.name', options={
+                        'layout': {
+                            'name': 'Activity History',
+                            'options': {
+                                'type': 'popup',
+                                'layout': {
+                                    'type': 'simple-table',
+                                    'options': {
+                                        'root_path': 'change_log_info.change_logs',
+                                        'fields': [
+                                            {
+                                                "type": "text",
+                                                "key": "field",
+                                                "name": "Field"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "key": "to_string",
+                                                "name": "To change"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "key": "author.display_name",
+                                                "name": "User"
+                                            },
+                                            {
+                                                "type": "datetime",
+                                                "source_type": 'iso8601',
+                                                "key": "created",
+                                                "name": "Changed Time"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    })
+                ]
+            )
         return metadata
