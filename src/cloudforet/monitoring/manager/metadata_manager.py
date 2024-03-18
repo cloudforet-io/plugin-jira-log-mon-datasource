@@ -3,7 +3,6 @@ from spaceone.core.manager import BaseManager
 from cloudforet.monitoring.model.metadata.metadata import LogMetadata
 from cloudforet.monitoring.model.metadata.metadata_dynamic_field import TextDyField, DateTimeDyField, ListDyField, \
     MoreField
-from cloudforet.monitoring.conf.monitoring_conf import *
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -51,7 +50,6 @@ class MetadataManager(BaseManager):
                         }
                     }),
                     TextDyField.data_source('Status', 'status.name'),
-                    TextDyField.data_source('Priority', 'priority.name'),
                     TextDyField.data_source('Project', 'project.name', options={'link': 'issue_link.link_url'}),
                     TextDyField.data_source('Assignee', 'assignee.display_name'),
                     TextDyField.data_source('Reporter', 'reporter.display_name'),

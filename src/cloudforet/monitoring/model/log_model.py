@@ -99,6 +99,7 @@ class Custom(Model):
     approval_time = StringType(serialize_when_none=False)
 
 class JIRAIssueInfo(Model):
+    issue_type = StringType(serialize_when_none=False, default='Unknown')
     title = StringType(serialize_when_none=False)
     id = StringType(serialize_when_none=False)
     status = ModelType(IssueStatus, serialize_when_none=False)
