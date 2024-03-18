@@ -72,7 +72,6 @@ class LogManager(BaseManager):
                             issue_dict["custom"].update({key: _issue_field.get(value)})
                         else:
                             issue_dict["custom"] = {key: _issue_field.get(value)}
-
                 results.append(JIRAIssueInfo(issue_dict, strict=False))
 
         yield Log({'results': results})
