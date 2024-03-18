@@ -35,6 +35,7 @@ class LogManager(BaseManager):
 
                 _issue_field = issue.get('fields', {})
                 issue_dict.update({
+                    'issue_type': _issue_field.get('issuetype').get('name', 'Unknown'),
                     'title': _issue_field.get('summary'),
                     'project': _issue_field.get('project', {}),
                     'status': _issue_field.get('status'),
@@ -54,6 +55,24 @@ class LogManager(BaseManager):
                     'updated': _issue_field.get('updated'),
                     'change_log_info': {'change_logs': self._get_change_logs(jira_connector, issue.get('id'))}
                 })
+
+                # Temp code
+                if custom_fields := options.get("custom_fields"):
+                    for key, value in custom_fields.items():
+                        if isinstance(_issue_field[value], list):
+                            approvers_info = _issue_field[value]
+                            approvers = []
+
+                            for approver_info in approvers_info:
+                                approvers.append(approver_info["displayName"])
+
+                            _issue_field[value] = approvers
+
+                        if "custom" in issue_dict:
+                            issue_dict["custom"].update({key: _issue_field.get(value)})
+                        else:
+                            issue_dict["custom"] = {key: _issue_field.get(value)}
+
                 results.append(JIRAIssueInfo(issue_dict, strict=False))
 
         yield Log({'results': results})

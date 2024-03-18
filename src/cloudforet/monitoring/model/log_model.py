@@ -94,6 +94,10 @@ class IssueLink(Model):
     link_url = StringType(default='')
 
 
+class Custom(Model):
+    approvers = ListType(StringType, serialize_when_none=False)
+    approval_time = StringType(serialize_when_none=False)
+
 class JIRAIssueInfo(Model):
     title = StringType(serialize_when_none=False)
     id = StringType(serialize_when_none=False)
@@ -116,6 +120,7 @@ class JIRAIssueInfo(Model):
     labels = ListType(StringType(serialize_when_none=False), default=[])
     change_log_info = ModelType(IssueHistory)
     issue_link = ModelType(IssueLink)
+    custom = ModelType(Custom, serialize_when_none=False)
     created = DateTimeType(serialize_when_none=False)
     updated = DateTimeType(serialize_when_none=False)
 
